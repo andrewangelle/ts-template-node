@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
     "target": "ESNext",
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    },
-  },
+    }
+  }
 }
