@@ -1,3 +1,3 @@
-# TypeScript Template
+# Node TypeScript Template
 
-A template repository to automate spinning up a new ts repo
+A template repository for a bare-bones typescript node project
