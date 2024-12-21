@@ -1,6 +1,6 @@
 # Node TypeScript Template
 
-A template repository for a bare-bones typescript node project
+A template repository for a bare-bones typescript node project with my linter and githooks of choice.
 
 ## Prerequisites:
 - [Node](https://nodejs.org/en) v22 or greater.
