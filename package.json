@@ -21,10 +21,7 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "pnpm lint:fix",
-      "pnpm format"
-    ]
+    "*": ["pnpm lint:fix", "pnpm format"]
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
