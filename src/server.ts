@@ -1,6 +1,12 @@
 import http from 'node:http';
 import { type WebSocket, WebSocketServer } from 'ws';
-import { ID_GEN, PING_INTERVAL_MS, PORT } from './config.ts';
+import {
+  APPLICATION_ROUTE,
+  HEALTHCHECK_ROUTE,
+  ID_GEN,
+  PING_INTERVAL_MS,
+  PORT,
+} from './config.ts';
 import type { Client, WSMessage } from './types.ts';
 import { broadcast, removeClient, safeParse, sendTo } from './utils.ts';
 
@@ -8,11 +14,12 @@ const clients = new Map<string, Client>();
 
 // Create underlying HTTP server (so we can upgrade easily and optionally serve health endpoints)
 const httpServer = http.createServer((req, res) => {
-  if (req.url === '/internal/health') {
+  if (req.url === HEALTHCHECK_ROUTE) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', clients: clients.size }));
     return;
   }
+
   // default
   res.writeHead(404);
   res.end();
@@ -125,7 +132,7 @@ socketServer.on('connection', (socket: WebSocket, _req) => {
 httpServer.on('upgrade', (req, socket, head) => {
   const { url } = req;
 
-  if (url === '/ws/embedded-experiences-ssr') {
+  if (url === APPLICATION_ROUTE) {
     socketServer.handleUpgrade(req, socket, head, (ws) => {
       socketServer.emit('connection', ws, req);
     });
@@ -160,7 +167,7 @@ const interval = setInterval(() => {
 
 /* Start server */
 httpServer.listen(PORT, () => {
-  console.log(`WebSocket server listening on ws://localhost:${PORT}`);
+  console.log(`WebSocket server listening on port ${PORT}`);
 });
 
 /* Graceful shutdown */
@@ -176,7 +183,7 @@ function shutdown() {
   // terminate all clients
   for (const [_id, client] of clients.entries()) {
     try {
-      client.socket.close(1001, 'server_shutdown'); // going away
+      client.socket.close(1001, 'server_shutdown');
     } catch {
       client.socket.terminate();
     }
