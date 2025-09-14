@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      const ws = new WebSocket("ws://localhost:9009/ws/embedded-experiences-ssr");
+
+      ws.onopen = () => {
+        console.log("connected");
+        // ask server for client list
+        ws.send(JSON.stringify({ action: "list_clients" }));
+        // broadcast message
+        ws.send(JSON.stringify({ action: "broadcast", payload: "hello everyone" }));
+      };
+
+      ws.onmessage = (evt) => {
+        try {
+          const msg = JSON.parse(evt.data);
+          console.log("msg:", msg);
+        } catch (e) {
+          console.log("raw:", evt.data);
+        }
+      };
+    </script>
+  </body>
+</html>

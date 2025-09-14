@@ -8,12 +8,17 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-strip-types ./src/index.ts",
+    "start": "NODE_ENV=production PORT=9009 node ./dist/index.cjs",
+    "build": "tsup-node --config \"config/tsup.production.ts\"",
+    "dev": "NODE_ENV=development tsup src/index.ts --config \"config/tsup.dev.ts\" --watch --onSuccess \"node build/index.js\"",
     "lint:fix": "pnpm exec biome check . --write",
     "lint:check": "pnpm exec biome check .",
     "format": "pnpm exec biome format . --write",
     "pre-commit": "lint-staged",
     "prepare": "husky"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   },
   "husky": {
     "hooks": {
@@ -21,16 +26,21 @@
     }
   },
   "lint-staged": {
-    "*": ["pnpm lint:fix", "pnpm format"]
+    "*": [
+      "pnpm lint:fix",
+      "pnpm format"
+    ]
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.2.4",
     "@types/node": "^22.10.2",
+    "@types/ws": "^8.18.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
+    "tsup": "^8.5.0",
     "typescript": "^5.7.2"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   }
 }
