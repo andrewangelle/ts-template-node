@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
+    "types": ["@types/node"],
     "moduleResolution": "nodenext",
     "module": "NodeNext",
     "target": "ESNext",
-    "baseUrl": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "#root/*": ["./src/*"]
     }
   }
 }
