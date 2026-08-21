@@ -12,29 +12,25 @@
   },
   "scripts": {
     "start": "node ./src/index.mts",
-    "lint:fix": "pnpx biome check . --write",
-    "lint:check": "pnpx biome check .",
-    "format": "pnpx biome format . --write",
+    "build": "pnpm exec tsc",
+    "lint:fix": "pnpm exec biome check . --write",
+    "lint:check": "pnpm exec biome check .",
+    "format": "pnpm exec biome format . --write",
     "pre-commit": "lint-staged",
     "prepare": "husky"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
+    "*.{ts,tsx,js,jsx,mts,mjs}": [
       "pnpm lint:fix",
       "pnpm format"
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.8",
+    "@biomejs/biome": "^2.5.9",
     "@types/node": "^22.10.2",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11",
-    "typescript": "^6.0.2"
+    "lint-staged": "^17.3.0",
+    "typescript": "^7.0.2"
   },
   "engines": {
     "node": ">=22.0.0"
